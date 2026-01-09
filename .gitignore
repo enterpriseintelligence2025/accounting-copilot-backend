@@ -1,0 +1,68 @@
+# ==============================
+# Python
+# ==============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+accounting_copilot_backend_env/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# ==============================
+# Environment / Secrets
+# ==============================
+.env
+.env.*
+*.key
+*.pem
+
+# ==============================
+# FastAPI / Uvicorn
+# ==============================
+*.log
+uvicorn.log
+
+# ==============================
+# IDEs / Editors
+# ==============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.DS_Store
+
+# ==============================
+# OS files
+# ==============================
+Thumbs.db
+.DS_Store
+
+# ==============================
+# Uploads / Documents
+# ==============================
+uploads/
+*.pdf
+
+# ==============================
+# Testing / Coverage
+# ==============================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==============================
+# Build / Distribution
+# ==============================
+build/
+dist/
+*.egg-info/
+
+# ==============================
+# Jupyter (if ever used)
+# ==============================
+.ipynb_checkpoints/
