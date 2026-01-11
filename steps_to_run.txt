@@ -1,0 +1,8 @@
+STEPS:
+
+This is a this is a backend service create using fastapi for accounting copilot which handles invoice generation from purchase order and performs po and invoice reconciliation.
+1. Create a python virtual environment
+2. Start the python virtual environment
+3. Populate the .env file refer to .env.example
+4. run the service using the command uvicorn app.main:app --reload --host 0.0.0.0 --port 8000 (in case of issue check the updated syntax over the internet.)
+
