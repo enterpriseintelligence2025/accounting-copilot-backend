@@ -2,6 +2,15 @@ from langchain_core.messages import HumanMessage, AIMessage
 from app.llm import llm, llm_streaming
 
 def chat(messages: list) -> str:
+    """
+    Process a chat conversation and generate a response using the LLM.
+
+    Args:
+        messages (list): A list of message dictionaries (role, content).
+
+    Returns:
+        str: The content of the AI's response.
+    """
     lc_messages = []
     for m in messages:
         if m["role"] == "user":
@@ -15,6 +24,15 @@ def chat(messages: list) -> str:
 
 
 def stream_chat(messages: list):
+    """
+    Stream a chat conversation response using the streaming LLM.
+
+    Args:
+        messages (list): A list of message dictionaries (role, content).
+
+    Yields:
+        str: Chunks of the AI's response content.
+    """
     lc_messages = []
 
     for m in messages:

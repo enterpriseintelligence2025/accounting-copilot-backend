@@ -27,13 +27,34 @@ app.add_middleware(
 
 
 @app.post("/chat", response_model=ChatResponse)
-def chat_route(req: ChatRequest):
+def chat_route(req: ChatRequest) -> dict:
+    """
+    Handle a standard chat request using the configured LLM agent.
+    
+    This function receives a ChatRequest, processes the messages contained within it, 
+        req (ChatRequest): The request object containing a list of chat messages.
+
+    Returns:
+        dict: A dictionary containing the 'reply' string from the agent.
+    """
     reply = chat([m.dict() for m in req.messages])
     return {"reply": reply}
 
 
 @app.post("/chat/stream")
 async def chat_stream_route(request: Request):
+    """
+    Handle a streaming chat request.
+
+    Reads the JSON body from the request, extracts messages, and streams the
+    LLM's response token by token.
+
+    Args:
+        request (Request): The raw FastAPI request object.
+
+    Returns:
+        StreamingResponse: A text/plain stream of generated tokens.
+    """
     body = await request.json()
     messages = body["messages"]
 
@@ -49,6 +70,18 @@ async def chat_stream_route(request: Request):
 
 @app.post("/invoice/generate", response_model=FileResponse)
 async def invoice_route(file: UploadFile = File(...)):
+    """
+    Generate structured invoice data from an uploaded Purchase Order (PO) PDF.
+
+    The file is first validated to ensure it is a PO. If valid, the Invoice Agent
+    extracts relevant fields (vendor, line items, taxes) and returns them.
+
+    Args:
+        file (UploadFile): The uploaded PDF file of the Purchase Order.
+
+    Returns:
+        FileResponse: JSON object containing status, extracted data, or error details.
+    """
     pdf_data = await read_pdf(file)
 
     if not is_purchase_order(pdf_data["raw_text"]):
@@ -79,6 +112,19 @@ async def reconcile_route(
     po: UploadFile = File(...),
     invoice: UploadFile = File(...)
 ):
+    """
+    Reconcile a Purchase Order (PO) against a Vendor Invoice.
+
+    Both files are validated. The Reconciliation Agent then compares line items,
+    quantities, and amounts to identify any discrepancies.
+
+    Args:
+        po (UploadFile): The Purchase Order PDF.
+        invoice (UploadFile): The Vendor Invoice PDF.
+
+    Returns:
+        FileResponse: JSON object containing reconciliation status and data.
+    """
     po_text = await read_pdf(po)
     invoice_text = await read_pdf(invoice)
 

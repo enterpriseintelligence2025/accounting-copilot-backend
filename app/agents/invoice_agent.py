@@ -56,6 +56,22 @@ Schema (top-level):
 """
 
 def generate_invoice(po_text: str) -> dict:
+    """
+    Extract structured invoice data from raw Purchase Order text using an LLM.
+
+    The function sends the PO text to the LLM with a strict system prompt to enforce
+    JSON output conforming to the InvoiceSchema. It also handles Indian GST tax calculations
+    based on state logic.
+
+    Args:
+        po_text (str): The raw text extracted from the Purchase Order PDF.
+
+    Returns:
+        dict: A dictionary representation of the valid InvoiceSchema.
+
+    Raises:
+        ValueError: If the LLM output does not validate against the InvoiceSchema.
+    """
     response = llm.invoke(
         [
             SystemMessage(content=SYSTEM_PROMPT),
